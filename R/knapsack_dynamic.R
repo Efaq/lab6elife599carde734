@@ -3,6 +3,14 @@ knapsack_dynamic<-function(x,W)
   
   weights<- as.vector(x[[1]])
   values<- as.vector(x[[2]])
+  
+  #verify if weights are discrete   
+  
+  if(typeof(weights)!="integer")
+  {
+    stop("Dataframe should contain weigths with dicrete values so that dynamic programming can be used")
+  }
+
 
   n<- length(values)
   elements = vector(length = n)
