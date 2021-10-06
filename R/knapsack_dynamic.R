@@ -1,48 +1,22 @@
 knapsack_dynamic<-function(x,W)
 { 
-  #tirar a iniciação de valores
-  W<-3500
-  x<-knapsack_objects[1:6,]
-  
   
   weights<- as.vector(x[[1]])
   values<- as.vector(x[[2]])
+
+  n<- length(values)
+  elements = vector(length = n)
+  elements[] <- 0 
   
-  
-  weights<- c(5,3,4,2)
-  values<-c(60,50,70,30)
-  W<-5
-  
-  list_result<- list(value=0, elements=c(0))
-  
-  
-  #i=1
- # j=1
-  
-  dynamic_matrix<-matrix(nrow=length(values),
+  dynamic_matrix<-matrix(nrow=n,
                          ncol=W+1)
-  
-  #set first row and columns to zero
-  
- # while(j <= W+1 )
- # {
- #  dynamic_matrix[1,j]=0
-    
-  #  j=j+1
-  #}
-  
- # while(i <= length(values) )
- # {
- #   dynamic_matrix[i,1]=0
-    
-  #  i=i+1
- # }
-  
   
   i=1
   j=1
-
-  while(i<=length(values))
+  
+  #calculates matrix with data 
+  
+  while(i<=n)
   { 
     j=1
     
@@ -51,13 +25,14 @@ knapsack_dynamic<-function(x,W)
       if(j==1 )
       {
         dynamic_matrix[i,j]=0
+        
       }
       
       
       else if(weights[i]<j)
       {
         res1 <- dynamic_matrix[i-1,j]
-        res2 <- dynamic_matrix[i-1,j-W[i]]
+        res2 <- dynamic_matrix[i-1,j-weights[i]]
         res3 <- values[i]
         res4 <- res2+res3
         
@@ -76,12 +51,8 @@ knapsack_dynamic<-function(x,W)
         
       }
       
-      
       else
       { 
-        
-       
-        #dynamic_matrix[i,j]=123
         
         if(length(dynamic_matrix[i-1,j])==0)
         {
@@ -91,7 +62,6 @@ knapsack_dynamic<-function(x,W)
         {
           dynamic_matrix[i,j]=dynamic_matrix[i-1,j]
         }
-  
         
       }
       
@@ -103,10 +73,37 @@ knapsack_dynamic<-function(x,W)
     i=i+1 
   }
   
-  return(dynamic_matrix)
+  #calculates best solution
   
+  max_value <- dynamic_matrix[n,W+1]
+  
+  value = max_value
+  
+  while(n>=1)
+  {
+    
+    if(length(setdiff(value, dynamic_matrix[n-1,]))==1)
+    {
+      elements[n]=1
+      value = value-values[n]
+      
+      if (value<=0)   break;
+             
+    }
+    else
+    {
+      elements[n]=0
+    }
+    
+    n=n-1
+  }
+ 
+  final_elements<-which(elements==1)
+  
+  return(list(value=max_value, elements=final_elements))
   
 }
+
 
 
 
