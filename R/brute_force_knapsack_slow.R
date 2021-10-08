@@ -12,7 +12,7 @@ maybe_par_lapply = function(is_parallel = FALSE) {
   }
 }
 
-brute_force_knapsack = function(x, W, parallel = FALSE) {
+brute_force_knapsack_slow = function(x, W, parallel = FALSE) {
   stopifnot(is.data.frame(x),
             "v" %in% colnames(x),
             "w" %in% colnames(x),
