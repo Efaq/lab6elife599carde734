@@ -12,7 +12,7 @@ maybe_par_lapply = function(is_parallel = FALSE) {
   }
 }
 
-brute_force_knapsack = function(x, W, parallel = FALSE) {
+brute_force_knapsack_slow = function(x, W, parallel = FALSE) {
   stopifnot(is.data.frame(x),
             "v" %in% colnames(x),
             "w" %in% colnames(x),
@@ -47,7 +47,12 @@ brute_force_knapsack = function(x, W, parallel = FALSE) {
       ifelse(inp <= W, 1, 0)
     }
   )
-  brute_force_df[["value"]] = unlist(brute_force_df[["total_value"]]) * unlist(brute_force_df[["is_feasible"]])
+  brute_force_df[["value"]] = lapply_func(
+    input = row.names(brute_force_df),
+    func = function(inp) {
+      brute_force_df[[inp, "total_value"]] * brute_force_df[[inp, "is_feasible"]]
+    }
+  )
   solution = which.max(brute_force_df[["value"]])
   return(list(value = brute_force_df[["value"]][[solution]],
               elements = which(intToBits(solution) == 1)))
