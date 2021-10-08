@@ -1,3 +1,53 @@
+#'Dynamic programming approach for Knapsack problem
+#'
+#'\code{knapsack_dynamic} uses a dynamic programming algorithm in order to solve the knapsack problem. 
+#'Knapsack problem is a discrete optimization problem where we have a knapsack that can take a
+#'limited weight W and we want to fill this knapsack with a number of items i = 1, ..., n, each with a weight wi and a value vi. 
+#'The goal is to find the knapsack with the largest value of the elements added to
+#'the knapsack. \cr \cr knapsack_dynamic uses dynamic programming, which is a method for solving
+#'optimization problems.
+#'The idea is to compute the solutions to the subsub-problems
+#'once and store the solutions in a table, so that they
+#'can be reused (repeatedly) later.
+#'
+#' @param x, data.frame with 2 variables inside, Weights and Values.
+#'
+#' @param W, numeric scalar, represents capacity.
+#'
+#'
+#'
+#' @return value and elements that fill the knapsack with some given items, so that the value of the selected items is maximized.
+#'
+#'
+#'
+#' @examples
+#' 
+#' RNGversion(min(as.character(getRversion()),"3.5.3"))
+#' 
+#' set.seed(42, kind = "Mersenne-Twister", normal.kind = "Inversion")
+#'n <- 2000
+#'knapsack_objects <-
+#'data.frame(
+#'  w=sample(1:4000, size = n, replace = TRUE),
+#'    v=runif(n = n, 0, 10000)
+#'  )
+#'
+#'
+#'knapsack_dynamic(x = knapsack_objects[1:8,], W = 3500)
+#'knapsack_dynamic(x = knapsack_objects[1:12,], W = 3500)
+#'knapsack_dynamic(x = knapsack_objects[1:8,], W = 2000)
+#'knapsack_dynamic(x = knapsack_objects[1:12,], W = 2000)
+#'
+#' 
+#' @source 
+#' Read more at \url{https://en.wikipedia.org/wiki/Knapsack_problem#0.2F1_knapsack_problem.}
+#'
+#' @importFrom methods new
+#' @export knapsack_dynamic
+
+########################################################################################
+
+
 knapsack_dynamic<-function(x,W)
 { 
   if(is.data.frame(x)!=TRUE)
