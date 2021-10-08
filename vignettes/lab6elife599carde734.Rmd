@@ -1,0 +1,22 @@
+---
+title: "lab6elife599carde734"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{lab6elife599carde734}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(lab6elife599carde734)
+```
+Question: What performance gain could you get by trying to improving your code?
+
+The main target of our performance enhancement adventure was to understand why the brute force algorithm was running so slowly. In a first correct implementation, although passing tests, the algorithm was taking in the order of 2500 seconds to deal with 16 elements, vs around 420 seconds when parallelized. Clearly there's something in the core of the algorithm that needs to be optimized.
