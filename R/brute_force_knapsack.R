@@ -32,8 +32,8 @@ maybe_par_lapply = function(is_parallel = FALSE) {
 #'
 #' @param W, numeric scalar, represents capacity.
 #' 
-#' @param Parallel, TRUE or FALSE. 
-#'\cr Is FALSE by default.If set to TRUE, the function parallelize
+#' @param parallel, TRUE or FALSE. 
+#'\cr Is FALSE by default.If set to TRUE, the function parallelizes
 #'over the detected cores.
 #'
 #'
@@ -56,7 +56,7 @@ maybe_par_lapply = function(is_parallel = FALSE) {
 #'  )
 #'
 #'
-#'brute_force_knapsack(x = knapsack_objects[1:8,], W = 3500, parallel=TRUE)
+#'brute_force_knapsack(x = knapsack_objects[1:8,], W = 3500)
 #'brute_force_knapsack(x = knapsack_objects[1:12,], W = 3500)
 #'brute_force_knapsack(x = knapsack_objects[1:8,], W = 2000)
 #'brute_force_knapsack(x = knapsack_objects[1:12,], W = 2000)
