@@ -1,3 +1,54 @@
+#'Greedy heuristic approach for Knapsack problem
+#'
+#'\code{greedy_knapsack} uses a Greedy heuristic algorithm in order to solve the knapsack problem. 
+#'Knapsack problem is a discrete optimization problem where we have a knapsack that can take a
+#'limited weight W and we want to fill this knapsack with a number of items i = 1, ..., n, each with a weight wi and a value vi. 
+#'The goal is to find the knapsack with the largest value of the elements added to
+#'the knapsack.
+#'\cr \cr 
+#'\code{greedy_knapsack} algorithm will not
+#'give an exact result (but it can be shown that it will return at least 50% of the true maximum value),
+#'but it will reduce the computational complexity considerably (actually to O(n log n) due to the sorting
+#'part of the algorithm). 
+#'
+#'
+#' @param x, data.frame with two variables v and w.
+#'
+#' @param W, numeric scalar, represents capacity.
+#' 
+#'
+#'
+#'
+#' @return value and elements that fill the knapsack with some given items, so that the value of the selected items is maximized.
+#'
+#'
+#'
+#' @examples
+#' 
+#' RNGversion(min(as.character(getRversion()),"3.5.3"))
+#' 
+#' set.seed(42, kind = "Mersenne-Twister", normal.kind = "Inversion")
+#'n <- 2000
+#'knapsack_objects <-
+#'data.frame(
+#'  w=sample(1:4000, size = n, replace = TRUE),
+#'    v=runif(n = n, 0, 10000)
+#'  )
+#'
+#'
+#'greedy_knapsack(x = knapsack_objects[1:800,], W = 3500)
+#'greedy_knapsack(x = knapsack_objects[1:1200,], W = 2000)
+#'
+#' 
+#' @source 
+#' Read more at \url{https://en.wikipedia.org/wiki/Knapsack_problem#Greedy_approximation_algorithm.}
+#'
+#' @importFrom methods new
+#' @export greedy_knapsack
+
+########################################################################################
+
+
 greedy_knapsack = function(x, W) {
   stopifnot(is.data.frame(x),
             "v" %in% colnames(x),
