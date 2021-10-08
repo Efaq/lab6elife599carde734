@@ -4,13 +4,16 @@
 \name{lab6elife599carde734-package}
 \alias{lab6elife599carde734}
 \alias{lab6elife599carde734-package}
-\title{lab6elife599carde734: Solutions to the knapsack problem}
+\title{lab6elife599carde734: Knapsack solvers}
 \description{
 Package for assignment 6 in Advanced R. It studies the knapsack problem, implementing different solutions for it with different complexities.
 }
 \details{
 This package is the solution for Lab 6 in Advanced R.
-TODO add description here
+The package implements three solvers for the Knapsack problem (see \url{https://en.wikipedia.org/wiki/Knapsack_problem}),
+namely the Brute Force Search, the Dynamic Programming Solver and the Greedy Heuristic.
+The Brute Force Search offers the possibility of using parallel computation.
+Through the package's vignette you can learn about the differences in speed for these algorithms.
 }
 \author{
 \strong{Maintainer}: Elisio Quintino \email{elife599@student.liu.se}
