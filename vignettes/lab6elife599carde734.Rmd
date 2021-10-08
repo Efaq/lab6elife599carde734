@@ -13,10 +13,110 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-
+In this vignette, we are going to work with different knapsack problem solvers. First, we import the relevant libraries and create our dataset.
 ```{r setup}
 library(lab6elife599carde734)
+
+RNGversion(min(as.character(getRversion()),"3.5.3"))
+set.seed(42, kind = "Mersenne-Twister", normal.kind = "Inversion")
+n <- 2000
+knapsack_objects <-
+data.frame(
+w=sample(1:4000, size = n, replace = TRUE),
+v=runif(n = n, 0, 10000)
+)
 ```
+## Brute Force
+
+Some examples of the brute force algorithm follow below:
+
+```{r}
+brute_force_knapsack(x = knapsack_objects[1:8,], W = 3500)
+brute_force_knapsack(x = knapsack_objects[1:12,], W = 3500)
+brute_force_knapsack(x = knapsack_objects[1:8,], W = 2000)
+brute_force_knapsack(x = knapsack_objects[1:12,], W = 2000)
+```
+Question: How much time does it takes to run the algorithm for n = 16 objects?
+```{r}
+sample_size = 1 #This value is 1 to keep the vignette quick to run, but should be larger to reduce the variance of the resulting times
+t1 = system.time({for (i in 1:sample_size) brute_force_knapsack(x = knapsack_objects[1:16,], W = 3500)})/sample_size
+print("User time:")
+t1[[1]]
+print("System time:")
+t1[[2]]
+```
+Question: What performance gain could you get by parallelizing brute force search?
+```{r}
+sample_size = 1 #This value is 1 to keep the vignette quick to run, but should be larger to reduce the variance of the resulting times
+t2 = system.time({for (i in 1:sample_size) brute_force_knapsack(x = knapsack_objects[1:16,], W = 3500, parallel=TRUE)})/sample_size
+print("User time:")
+t2[[1]]
+print("System time:")
+t2[[2]]
+```
+So we can notice that the user time gets shorter, at the cost of some increase in system time. The overall benefit is though positive.
+
+## Dynamic programming
+
+Some examples of the dynamic programming approach follow below:
+
+```{r}
+knapsack_dynamic(x = knapsack_objects[1:8,], W = 3500)
+knapsack_dynamic(x = knapsack_objects[1:12,], W = 3500)
+knapsack_dynamic(x = knapsack_objects[1:8,], W = 2000)
+knapsack_dynamic(x = knapsack_objects[1:12,], W = 2000)
+```
+
+Question: How much time does it takes to run the algorithm for n = 500 objects?
+
+```{r}
+sample_size = 1 #This value is 1 to keep the vignette quick to run, but should be larger to reduce the variance of the resulting times
+t3 = system.time({for (i in 1:sample_size) knapsack_dynamic(x = knapsack_objects[1:500,], W = 3500)})/sample_size
+print("User time:")
+t3[[1]]
+print("System time:")
+t3[[2]]
+
+```
+We can notice that, even with an increase in objects from 16 to 500, the time used by the dynamic programming strategy for 500 objects is in the same order of magnitude as the brute force approach for 16 objects, confirming that the dynamic programming solution scales much better.
+
+## Greedy heuristic
+
+Some examples of the greedy heuristic approach follow below:
+
+```{r}
+greedy_knapsack(x = knapsack_objects[1:800,], W = 3500)
+greedy_knapsack(x = knapsack_objects[1:1200,], W = 2000)
+```
+Question: How much time does it take to run the algorithm for n = 1000000 objects?
+
+
+In order to run the algorithm for a larger number of objects, we're going to ressample the dataset:
+
+```{r}
+n <- 1000000
+knapsack_objects_extended <-
+data.frame(
+w=sample(1:4000, size = n, replace = TRUE),
+v=runif(n = n, 0, 10000)
+)
+```
+Now we can observe how fast the algorithm is for 1000000 objects:
+
+```{r}
+sample_size = 1 #This value is 1 to keep the vignette quick to run, but should be larger to reduce the variance of the resulting times
+t4 = system.time({for (i in 1:sample_size) greedy_knapsack(x = knapsack_objects_extended, W = 3500)})/sample_size
+print("User time:")
+t4[[1]]
+print("System time:")
+t4[[2]]
+```
+
+We can notice that the algorithm is extremely fast, at the cost of not guaranteeing an optimal solution.
+
+
+## Performance assessment and code optimization
+
 Question: What performance gain could you get by trying to improving your code?
 
 The main target of our performance enhancement adventure was to understand why the brute force algorithm was running so slowly. In a first correct implementation, although passing tests, the algorithm was taking in the order of 2500 seconds to deal with 16 elements, vs around 420 seconds when parallelized. Clearly there's something in the core of the algorithm that needs to be optimized.
