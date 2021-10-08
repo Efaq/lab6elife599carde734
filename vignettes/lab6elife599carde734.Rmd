@@ -20,3 +20,23 @@ library(lab6elife599carde734)
 Question: What performance gain could you get by trying to improving your code?
 
 The main target of our performance enhancement adventure was to understand why the brute force algorithm was running so slowly. In a first correct implementation, although passing tests, the algorithm was taking in the order of 2500 seconds to deal with 16 elements, vs around 420 seconds when parallelized. Clearly there's something in the core of the algorithm that needs to be optimized.
+
+When profiling the code, we found the clear bottleneck:
+
+```{r eval=FALSE}
+brute_force_df[["value"]] = lapply_func(
+  input = row.names(brute_force_df),
+  func = function(inp) {
+    brute_force_df[[inp, "total_value"]] * brute_force_df[[inp, "is_feasible"]]
+  }
+)
+```
+This code means to calculate the effective value of each solution by multiplying the unconstrained solution value by 1 if it's feasible or by 0 if it isn't. As an example, for 14 objects, while the rest of the code was executing in less than a second, this part alone was taking around 130 seconds.
+
+After identifying the issue, we solved it by rewriting the code to:
+```{r eval_FALSE}
+brute_force_df[["value"]] = unlist(brute_force_df[["total_value"]]) * unlist(brute_force_df[["is_feasible"]])
+```
+With this change, this part of the algorithm works almost instantly.
+
+
