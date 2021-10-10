@@ -1,5 +1,5 @@
 ---
-title: "lab_report_knapsack"
+title: "lab6elife599carde734"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{lab6elife599carde734}
